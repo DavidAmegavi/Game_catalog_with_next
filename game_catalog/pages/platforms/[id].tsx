@@ -19,17 +19,22 @@ const GamesByPlatform: React.FC<GetPlatformsToProps> = ({ data }) => {
   return (
     <div className="container">
       <h1>Games List</h1>
-      <ul>
-        {data.map((game) => (
-          <Link href={`/games/${game.slug}`}>
-            <li>
-              <h2>{game.name}</h2>
-              <h3>{game.price / 100}</h3>
-              <img src={game.cover} alt="" />
-            </li>
-          </Link>
-        ))}
-      </ul>
+      {data.map((game) => (
+        <div className="row row-cols-2 ">
+          <div className="col">
+            <div className="card">
+              <img src={game.cover} className="card-img-top" />
+              <div className="card-body">
+                <h5 className="card-title-center">{game.name}</h5>
+                <h3 className="card-text-center">{game.price / 100}</h3>
+                <Link href={`/games/${game.slug}`}>
+                  <a className="btn btn-success">More details</a>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

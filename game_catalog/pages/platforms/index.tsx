@@ -18,16 +18,20 @@ const GetAllPlatforms: React.FC<GetPlatformsToProps> = ({ data }) => {
   return (
     <div className="container">
       <h1>Platforms List</h1>
-      <ul>
-        {data.map((platform) => (
-          <Link href={`/platforms/${platform.slug}`}>
-            <li>
-              <h2>{platform.name}</h2>
-              <img src={platform.logo} alt="" />
-            </li>
-          </Link>
-        ))}
-      </ul>
+      {data.map((platform) => (
+        <div className="row row-cols-2 ">
+          <div className="col">
+            <div className="card">
+              <img src={platform.logo} className="card-img-top" />
+              <div className="card-text-center">
+                <Link href={`/platforms/${platform.slug}`}>
+                  <a className="btn btn-dark">{platform.name}</a>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

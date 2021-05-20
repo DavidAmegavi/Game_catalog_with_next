@@ -38,10 +38,11 @@ const Games: React.FC<GetGamesToProps> = ({ data }) => {
 export default Games;
 
 const getServerSideProps: GetServerSideProps = async (context) => {
+  const query = context.query.id;
   const { db } = await connectToDatabase();
   const games = await db
     .collection("games")
-    .find({})
+    .find({ slug: query })
     .toArray()
     .then((gamesList) => {
       return gamesList.map((games) => {
