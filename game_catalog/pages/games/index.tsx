@@ -1,10 +1,12 @@
 import { GetServerSideProps } from "next";
 import { connectToDatabase } from "../../util/mongodb";
+import Link from "next/link";
 
 type GetGames = {
   name: string;
   price: number;
   cover: string;
+  slug: string;
 };
 
 type GetGamesToProps = {
@@ -17,11 +19,13 @@ const Games: React.FC<GetGamesToProps> = ({ data }) => {
       <h1>Games List</h1>
       <ul>
         {data.map((game) => (
-          <li>
-            <h2>{game.name}</h2>
-            <h3>{game.price / 100}</h3>
-            <img src={game.cover} alt="" />
-          </li>
+          <Link href={`/games/${game.slug}`}>
+            <li>
+              <h2>{game.name}</h2>
+              <h3>{game.price / 100}</h3>
+              <img src={game.cover} alt="" />
+            </li>
+          </Link>
         ))}
       </ul>
     </div>
@@ -49,6 +53,7 @@ const getServerSideProps: GetServerSideProps = async () => {
             name: games.name,
             price: games.price,
             cover: games.cover.url,
+            slug: games.slug,
           };
         }
       });
@@ -62,29 +67,3 @@ const getServerSideProps: GetServerSideProps = async () => {
 };
 
 export { getServerSideProps };
-
-// export default function Games({ games }) {
-//   return (
-//     <div>
-//       <h1>Games List</h1>
-//       <ul>
-//         {games.map((game) => (
-//           <li>
-//             <h2>{game.name}</h2>
-//             <h3>{game.summary}</h3>
-//             <p>{game.url}</p>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-// export async function getServerSideProps() {
-//   const { db } = await connectToDatabase();
-//   const games = await db.collection("games").find({}).toArray();
-//   return {
-//     props: {
-//       games: JSON.parse(JSON.stringify(games)),
-//     },
-//   };
-// }

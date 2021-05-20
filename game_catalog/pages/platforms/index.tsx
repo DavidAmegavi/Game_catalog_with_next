@@ -13,54 +13,26 @@ type GetPlatforms = {
 type GetPlatformsToProps = {
   data: GetPlatforms[];
 };
-const getServerSideProps: GetServerSideProps = async (context) => {
-  const query = context.query.id;
-  const { db } = await connectToDatabase();
-  const games = await db
-    .collection("games")
-    .find({})
-    .toArray()
-    .then((gamesList) => {
-      return gamesList.map((games) => {
-        if (games.cover === undefined) {
-          return {
-            name: games.name,
-            price: games.price,
-            // cover: games.cover,
-          };
-        } else {
-          return {
-            name: games.name,
-            price: games.price,
-            cover: games.cover.url,
-          };
-        }
-      });
-    });
 
-  return {
-    props: {
-      data: games,
-    },
-  };
+const GetAllPlatforms: React.FC<GetPlatformsToProps> = ({ data }) => {
+  return (
+    <div className="container">
+      <h1>Platforms List</h1>
+      <ul>
+        {data.map((platform) => (
+          <Link href={`/platforms/${platform.slug}`}>
+            <li>
+              <h2>{platform.name}</h2>
+              <img src={platform.logo} alt="" />
+            </li>
+          </Link>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
-{
-  /* <div className="container">
-  <div className="row justify-content-md-center" >
-      <div className="col-xl-auto">
-        <div className="col-xl-auto" width="16.5rem" height= "27rem">
-          <a href="/platforms/{{ platform.slug }}">
-            <img src="{{platform.cover}}">
-          </a>
-          <h6 className="text-center">{{ platform.name }}</h6>
-        </div>
-      </div>
-  </div>
-</div>   */
-}
-
-export default GetByPlatform;
+export default GetAllPlatforms;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const platforms = [];
@@ -90,3 +62,18 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   };
 };
+
+{
+  /* <div className="container">
+  <div className="row justify-content-md-center" >
+      <div className="col-xl-auto">
+        <div className="col-xl-auto" width="16.5rem" height= "27rem">
+          <a href="/platforms/{{ platform.slug }}">
+            <img src="{{platform.cover}}">
+          </a>
+          <h6 className="text-center">{{ platform.name }}</h6>
+        </div>
+      </div>
+  </div>
+</div>   */
+}
