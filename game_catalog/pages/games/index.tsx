@@ -37,7 +37,6 @@ const getServerSideProps: GetServerSideProps = async () => {
     .find({})
     .toArray()
     .then((gamesList) => {
-      console.log(gamesList);
       return gamesList.map((games) => {
         if (games.cover === undefined) {
           return {

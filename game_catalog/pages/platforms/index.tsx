@@ -1,34 +1,64 @@
 import React from "react";
 import { GetServerSideProps } from "next";
 import { connectToDatabase } from "../../util/mongodb";
+import Link from "next/link";
 
 type GetPlatforms = {
   name: string;
   slug: string;
   logo: string;
+  [key: string]: any;
 };
 
 type GetPlatformsToProps = {
   data: GetPlatforms[];
 };
+const getServerSideProps: GetServerSideProps = async (context) => {
+  const query = context.query.id;
+  const { db } = await connectToDatabase();
+  const games = await db
+    .collection("games")
+    .find({})
+    .toArray()
+    .then((gamesList) => {
+      return gamesList.map((games) => {
+        if (games.cover === undefined) {
+          return {
+            name: games.name,
+            price: games.price,
+            // cover: games.cover,
+          };
+        } else {
+          return {
+            name: games.name,
+            price: games.price,
+            cover: games.cover.url,
+          };
+        }
+      });
+    });
 
-const GetByPlatform: React.FC<GetPlatformsToProps> = ({ data }) => {
-  return (
-    <div className="container">
-      <h1>Platforms List</h1>
-      <ul className="pltm">
-        {data.map((platforms) => {
-          return (
-            <li>
-              <p>{platforms.name}</p>
-              <img src={platforms.logo} alt="" />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
+  return {
+    props: {
+      data: games,
+    },
+  };
 };
+
+{
+  /* <div className="container">
+  <div className="row justify-content-md-center" >
+      <div className="col-xl-auto">
+        <div className="col-xl-auto" width="16.5rem" height= "27rem">
+          <a href="/platforms/{{ platform.slug }}">
+            <img src="{{platform.cover}}">
+          </a>
+          <h6 className="text-center">{{ platform.name }}</h6>
+        </div>
+      </div>
+  </div>
+</div>   */
+}
 
 export default GetByPlatform;
 
@@ -41,10 +71,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
     .toArray()
     .then((data) => {
       data.forEach((games) => {
-        const firstStep = platforms.find((element) => {
+        const findGames = platforms.find((element) => {
           return element.slug === games.platform.slug;
         });
-        if (!firstStep) {
+        if (!findGames) {
           platforms.push({
             name: games.platform.name,
             slug: games.platform.slug,
