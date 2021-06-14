@@ -31,7 +31,7 @@ const Games: React.FC<GetGamesToProps> = ({ data }) => {
     <div className="container">
       <h1>Games List</h1>
       {data.map((game) => (
-        <div className="row row-cols-2 ">
+        <div className="row row-cols-3 row-cols-md-2 ">
           <div className="col">
             <div className="card">
               <img src={game.cover} className="card-img-top" />

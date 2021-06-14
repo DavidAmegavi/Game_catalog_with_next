@@ -19,7 +19,7 @@ const GetAllPlatforms: React.FC<GetPlatformsToProps> = ({ data }) => {
     <div className="container">
       <h1>Platforms List</h1>
       {data.map((platform) => (
-        <div className="row row-cols-2 ">
+        <div className="row row-cols-sm-1 row-cols-md-3 row-cols-lg-5 ">
           <div className="col">
             <div className="card">
               <img src={platform.logo} className="card-img-top" />

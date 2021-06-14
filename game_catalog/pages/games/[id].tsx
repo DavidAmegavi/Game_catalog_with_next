@@ -26,6 +26,7 @@ const Games: React.FC<GetGamesToProps> = ({ data }) => {
               <h2>{game.name}</h2>
               <h3>{game.price / 100}</h3>
               <img src={game.cover} alt="" />
+              <h2>Summary</h2>
               <p>{game.summary}</p>
             </li>
           </Link>

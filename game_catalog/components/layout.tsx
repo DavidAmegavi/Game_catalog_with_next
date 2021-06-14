@@ -23,7 +23,7 @@ const Layout: React.FC = ({ children }) => {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/">
+          <a className="nav-link" href="/signin">
             Sign in
           </a>
         </li>
